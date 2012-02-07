@@ -25,6 +25,7 @@ header
   background-color: $headerbg
   background: -webkit-linear-gradient(top, $headerbg, darken($headerbg, 30%))
   -webkit-border-radius: 0 0 $radius $radius
+  -webkit-box-shadow: 0 0 10px $contentbg
 
   nav
     h1
@@ -55,16 +56,17 @@ td#content
   min-width: 200px
 
 td#sidebar
-  width: 200px
+  width: 350px
 
 article:after
-  background: -webkit-linear-gradient(top, darken($headerbg, 20%), $headerbg, darken($headerbg, 20%))
+  background: -webkit-linear-gradient(top, $contentbg, $headerbg, $contentbg)
   display: block
   width: 100%
   content: '- - - - -'
-  margin-top: 15px
-  margin-bottom: 15px
+  margin-top: 20px
+  margin-bottom: 30px
   text-align: center
+  border-radius: $radius
 article:last-child:after
   content: ''
   margin-top: 0
@@ -73,8 +75,8 @@ article:last-child:after
 article
   section.markdown
     p
-      margin-top: 5px
-      margin-bottom: 5px
+      margin-top: 10px
+      margin-bottom: 10px
     a
       background-color: lighten($bodybg, 50%)
 
@@ -86,13 +88,15 @@ section#content
   margin-right: 15px
   padding:      10px
   -webkit-border-radius: $radius
-  -webkit-box-shadow:    0 0 10px darken($contentbg, 40%)
+  -webkit-box-shadow:    0 0 10px $contentbg
   background-color:      $contentbg
   h1
     text-align:  center
     font-weight: bold
     font-size:   130%
     margin:      10px
+  hr
+    height: 1px
 
 section#sidebar
   position: relative

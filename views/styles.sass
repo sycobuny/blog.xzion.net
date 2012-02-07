@@ -24,8 +24,11 @@ header
   padding: 10px
   background-color: $headerbg
   background: -webkit-linear-gradient(top, $headerbg, darken($headerbg, 30%))
+  background: -moz-linear-gradient(top, $headerbg, darken($headerbg, 30%))
+  -moz-border-radius: 0 0 $radius $radius
   -webkit-border-radius: 0 0 $radius $radius
   -webkit-box-shadow: 0 0 10px $contentbg
+  -moz-box-shadow: 0 0 10px $contentbg
 
   nav
     h1
@@ -59,6 +62,7 @@ td#sidebar
   width: 350px
 
 article:after
+  background: -moz-linear-gradient(top, $contentbg, $headerbg, $contentbg)
   background: -webkit-linear-gradient(top, $contentbg, $headerbg, $contentbg)
   display: block
   width: 100%
@@ -66,7 +70,8 @@ article:after
   margin-top: 20px
   margin-bottom: 30px
   text-align: center
-  border-radius: $radius
+  -webkit-border-radius: $radius * 3
+  -moz-border-radius: $radius * 3
 article:last-child:after
   content: ''
   margin-top: 0
@@ -87,8 +92,11 @@ section#content
   margin-left:  15px
   margin-right: 15px
   padding:      10px
+  border-radius: $radius
+  -moz-border-radius: $radius
   -webkit-border-radius: $radius
   -webkit-box-shadow:    0 0 10px $contentbg
+  -moz-box-shadow:       0 0 10px $contentbg
   background-color:      $contentbg
   h1
     text-align:  center
@@ -107,6 +115,8 @@ section#sidebar
   margin-left: 15px
   margin-right: 15px
   padding: 10px
+  -moz-border-radius:    $radius
   -webkit-border-radius: $radius
   -webkit-box-shadow:    0 0 10px $contentbg
+  -moz-box-shadow:       0 0 10px $contentbg
   background-color:      darken($contentbg, 40%)

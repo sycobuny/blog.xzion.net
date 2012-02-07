@@ -3,5 +3,26 @@
 %html
   %head
     %title= @title
+    %link{:rel => :stylesheet, :href => 'styles.css'}
   %body
-    = yield
+    %header
+      %nav
+        %h1
+          %a{:href => '/'} An Oak In The Fall
+        %ul
+          %li
+            %a{:href => '/tags/programming'} Programming
+          %li
+            %a{:href => '/tags/music'} Music
+    %table
+      %tr
+        %td#content
+          %section#content
+            = yield
+        %td#sidebar
+          %section#sidebar
+            %h1
+              Twitter!
+            %p.tweet
+              %a.twitter_profile{:href => 'http://twitter.com/sycobuny'} @sycobuny
+              I don't know what to do here.

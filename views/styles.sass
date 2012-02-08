@@ -3,6 +3,16 @@ $headerbg:  #CECECE
 $contentbg: #DEDEDE
 $link:      black
 $radius:    5px
+$shadowsz:  10px
+
+@mixin fancy-box
+  -moz-border-radius:    0 0 $radius $radius
+  -webkit-border-radius: 0 0 $radius $radius
+  border-radius:         0 0 $radius $radius
+
+  -moz-box-shadow:    0 0 $shadowsz $contentbg
+  -webkit-box-shadow: 0 0 $shadowsz $contentbg
+  box-shadow:         0 0 $shadowsz $contentbg
 
 body
   background-color: $bodybg
@@ -25,10 +35,7 @@ header
   background-color: $headerbg
   background: -webkit-linear-gradient(top, $headerbg, darken($headerbg, 30%))
   background: -moz-linear-gradient(top, $headerbg, darken($headerbg, 30%))
-  -moz-border-radius: 0 0 $radius $radius
-  -webkit-border-radius: 0 0 $radius $radius
-  -webkit-box-shadow: 0 0 10px $contentbg
-  -moz-box-shadow: 0 0 10px $contentbg
+  @include fancy-box
 
   nav
     h1
@@ -72,6 +79,7 @@ article:after
   text-align: center
   -webkit-border-radius: $radius * 3
   -moz-border-radius: $radius * 3
+  border-radius: $radius * 3
 article:last-child:after
   content: ''
   margin-top: 0
@@ -115,8 +123,5 @@ section#sidebar
   margin-left: 15px
   margin-right: 15px
   padding: 10px
-  -moz-border-radius:    $radius
-  -webkit-border-radius: $radius
-  -webkit-box-shadow:    0 0 10px $contentbg
-  -moz-box-shadow:       0 0 10px $contentbg
-  background-color:      darken($contentbg, 40%)
+  background-color:  darken($contentbg, 40%)
+  @include fancy-box

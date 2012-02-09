@@ -1,4 +1,4 @@
-hostre = /^computers\./
+hostre = /^postgres\./
 
 before :host_name => hostre do
     @title = "My IT Blog"

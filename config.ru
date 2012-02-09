@@ -16,6 +16,7 @@ $LOAD_PATH.unshift File.expand_path('lib', File.dirname(__FILE__))
 ##
 # set up the app itself
 require 'db/config.rb'
+require 'sass_extensions'
 require 'app'
 
 ##

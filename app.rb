@@ -1,9 +1,7 @@
 enable :sessions
 set :haml, :format => :html5
 
-before do
-    @title = 'An Oak in the Fall - XZion.net Blog'
-end
+Dir.glob('app/*.rb').each { |fn| require fn }
 
 get '/styles.css' do
     sass :styles

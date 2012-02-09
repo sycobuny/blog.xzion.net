@@ -13,6 +13,9 @@ else
     end
 
     DB = Sequel.connect(db_opts)
+
+    require 'logger'
+    DB.loggers << Logger.new(STDOUT)
 end
 
 model_dir = File.expand_path('models', File.dirname(__FILE__))

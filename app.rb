@@ -19,7 +19,19 @@ get '/styles.css' do
 end
 
 get '/' do
+    @posts = Post.order(:id.desc).all
     haml :index
+end
+
+get '/posts/:slug' do
+    @post = Post.where(:slug => params[:slug]).first
+
+    unless @post
+        @post = Post[params[:slug]].first
+    end
+
+    not_found unless @post
+    haml :post
 end
 
 get '/login' do

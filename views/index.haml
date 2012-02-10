@@ -1,38 +1,13 @@
-%article.post#id3
-  %h1.title
-    Testing one more time
-
-  %hr
-
-  %section.markdown
-    = markdown :test_post3
-
-  %br
-  %p
-    %a{:href => '/posts/3'} Read more...
-
-%article.post#id2
-  %h1.title
-    Testing
-
-  %hr
-
-  %section.markdown
-    = markdown :test_post2
-
-  %br
-  %p
-    %a{:href => '/posts/2'} Read more...
-
-%article.post#id1
-  %h1.title
-    Hello, World!
-
-  %hr
-
-  %section.markdown
-    = markdown :test_post1
-
-  %br
-  %p
-    %a{:href => '/posts/1'} Read more...
+- @posts.each do |post|
+  %article.post{:id => "id#{post.id}"}
+    %h1.title= post.title
+    %hr
+    %section.markdown
+      = markdown post.preview
+    - if post.preview != post.body
+      %br
+      %p
+        - if post.slug
+          %a{:href => "/posts/#{post.slug}"} Read more...
+        - else
+          %a{:href => "/posts/#{post.id}"} Read more...

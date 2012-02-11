@@ -14,8 +14,10 @@ else
 
     DB = Sequel.connect(db_opts)
 
-    require 'logger'
-    DB.loggers << Logger.new(STDOUT)
+    unless ENV['DB_NOLOG']
+        require 'logger'
+        DB.loggers << Logger.new(STDOUT)
+    end
 end
 
 model_dir = File.expand_path('models', File.dirname(__FILE__))

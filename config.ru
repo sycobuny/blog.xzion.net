@@ -21,4 +21,6 @@ require 'app'
 
 ##
 # run the application
-run Sinatra::Application
+if $0 == __FILE__
+    run Sinatra::Application
+end

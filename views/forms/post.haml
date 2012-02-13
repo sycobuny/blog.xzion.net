@@ -1,0 +1,25 @@
+%form#post{:method => :post, :action => '/posts/save'}
+  %table
+    %tr
+      %th
+        %label{:for => :slug} Slug
+      %td
+        %input{:size => 30, :name => :slug, :style => 'width: 100px',
+               :value => @post.slug}
+    %tr
+      %th
+        %label{:for => :title} Title
+      %td
+        %input{:size => 150, :name => :title, :style => 'width: 150px',
+               :value => @post.title}
+    %tr
+      %th
+        %label{:for => :body} Post
+      %td
+        %textarea{:name => :body, :style => 'width: 300px; height: 500px'}
+          = preserve @post.body
+    %tr
+      %td{:colspan => 2}
+        - if @post.id
+          %input{:type => :hidden, :name => :id, :value => @post.id}
+        %input{:type => :submit, :value => 'Save'}

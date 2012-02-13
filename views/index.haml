@@ -1,6 +1,7 @@
 - @posts.each do |post|
   %article.post{:id => "id#{post.id}"}
-    %h1.title= post.title
+    %h1.title
+      %a{:href => "/posts/#{post.slug}"}= post.title
     %hr
     %section.markdown
       = markdown post.preview

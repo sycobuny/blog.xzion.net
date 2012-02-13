@@ -5,14 +5,19 @@ $link:      black
 $radius:    5px
 $shadowsz:  10px
 
-@mixin fancy-box
-  -moz-border-radius:    0 0 $radius $radius
-  -webkit-border-radius: 0 0 $radius $radius
-  border-radius:         0 0 $radius $radius
+@mixin fancy-box($bgcolor, $topradius: $radius, $gradient: 0)
+  -moz-border-radius:    $topradius $topradius $radius $radius
+  -webkit-border-radius: $topradius $topradius $radius $radius
+  border-radius:         $topradius $topradius $radius $radius
 
   -moz-box-shadow:    0 0 $shadowsz $contentbg
   -webkit-box-shadow: 0 0 $shadowsz $contentbg
   box-shadow:         0 0 $shadowsz $contentbg
+
+  background-color: $bgcolor
+  @if $gradient == 1
+    background: -webkit-linear-gradient(top, $bgcolor, darken($bgcolor, 30%))
+    background: -moz-linear-gradient(top, $bgcolor, darken($bgcolor, 30%))
 
 body
   background-color: $bodybg
@@ -29,13 +34,10 @@ a
   color: $link
 
 header
-  margin-left: 15px
-  margin-right: 15px
-  padding: 10px
-  background-color: $headerbg
-  background: -webkit-linear-gradient(top, $headerbg, darken($headerbg, 30%))
-  background: -moz-linear-gradient(top, $headerbg, darken($headerbg, 30%))
-  @include fancy-box
+  margin-left:      15px
+  margin-right:     15px
+  padding:          10px
+  @include fancy-box($headerbg, 0, 1)
 
   nav
     h1
@@ -43,10 +45,11 @@ header
       a
         text-shadow: 0 0 1px lighten($link, 20%)
       a:hover
-        text-shadow: 0 0 2px lighten($link, 22%)
+        text-shadow: 0 0 3px lighten($link, 25%)
     ul
       list-style: none
-      display: inline
+      display:    inline
+      float:      right
       li
         display: inline
         a
@@ -58,70 +61,67 @@ header
       li:last-child:after
         content: ''
 
-body
-  table
-    width: 100%
-
-td#content
-  min-width: 200px
-
-td#sidebar
-  width: 350px
-
 article:after
   background: -moz-linear-gradient(top, $contentbg, $headerbg, $contentbg)
   background: -webkit-linear-gradient(top, $contentbg, $headerbg, $contentbg)
-  display: block
-  width: 100%
-  content: '- - - - -'
-  margin-top: 20px
-  margin-bottom: 30px
+
+  display:    block
+  width:      100%
+  content:    '- - - - -'
   text-align: center
+  margin-top:    20px
+  margin-bottom: 30px
+
+  border-radius:         $radius * 3
   -webkit-border-radius: $radius * 3
-  -moz-border-radius: $radius * 3
-  border-radius: $radius * 3
+  -moz-border-radius:    $radius * 3
+
 article:last-child:after
-  content: ''
-  margin-top: 0
+  content:       ''
+  margin-top:    0
   margin-bottom: 0
 
 article
   section.markdown
+    *
+      word-wrap: break-word
     p
-      margin-top: 10px
+      margin-top:    10px
       margin-bottom: 10px
     a
       background-color: lighten($bodybg, 50%)
 
-section#content
-  vertical-align: top
-  height: 100%
-  margin-top:   20px
-  margin-left:  15px
-  margin-right: 15px
-  padding:      10px
-  border-radius: $radius
-  -moz-border-radius: $radius
-  -webkit-border-radius: $radius
-  -webkit-box-shadow:    0 0 10px $contentbg
-  -moz-box-shadow:       0 0 10px $contentbg
-  background-color:      $contentbg
-  h1
-    text-align:  center
-    font-weight: bold
-    font-size:   130%
-    margin:      10px
-  hr
-    height: 1px
+table#boxes
+  td#content
+    min-width: 800px
+    max-width: 800px
 
-section#sidebar
-  position: relative
-  top: 0
-  vertical-align: top
-  height: 100%
-  margin-top: 20px
-  margin-left: 15px
-  margin-right: 15px
-  padding: 10px
-  background-color:  darken($contentbg, 40%)
-  @include fancy-box
+    section#content
+      height:       100%
+      overflow:     auto
+      margin-top:   20px
+      margin-left:  15px
+      margin-right: 15px
+      padding:      10px
+      @include fancy-box($contentbg)
+      h1
+        text-align:  center
+        font-weight: bold
+        font-size:   130%
+        margin:      10px
+      hr
+        height: 1px
+
+  td#sidebar
+    width: 200px
+
+    section#sidebar
+      position:          relative
+      top:               0
+      vertical-align:    top
+      height:            100%
+      margin-top:        20px
+      margin-left:       15px
+      margin-right:      15px
+      padding:           10px
+      @include fancy-box(darken($contentbg, 40%))

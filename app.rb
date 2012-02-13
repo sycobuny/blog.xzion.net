@@ -19,18 +19,86 @@ get '/styles.css' do
 end
 
 get '/' do
-    @posts = Post.order(:id.desc).all
+    @posts = Post.order(:id.desc).limit(5).all
+    @title = @blog_title
     haml :index
+end
+
+get '/posts/new' do
+    unless @logged_in
+        unless Author[@client.info[:id]]
+            return 403
+        end
+    end
+
+    @post = Post.new
+    haml :'forms/post'
+end
+
+post '/posts/save' do
+    id = params.delete('id')
+
+    body = params[:body]
+    body.gsub!(/(.*)\#\{END_PREVIEW\} ?(.*)/m, "\\1\\2")
+    if $1 and $2
+        params['preview'] = $1
+    else
+        body_parts = body.split("\n")
+
+        preview_parts = []
+        graphs = 0
+        body_parts.each do |l|
+            preview_parts << l
+            graphs += 1 if (l =~ /[^\r]/)
+            break if (graphs == 3)
+        end
+
+        params['preview'] = preview_parts.join("\n")
+    end
+
+    if id
+        Post.dataset[:id => id] = params
+        post = Post[id]
+    else
+        post = Post.new(params)
+        post.save
+    end
+
+    redirect "/posts/#{post.slug}"
+end
+
+get '/posts/:id/edit' do
+    @post = Post[params[:id]]
+
+    return 404 unless @post
+
+    haml :'forms/post'
+end
+
+get '/posts/:id/delete' do
+    @post = Post[params[:id]]
+    return 404 unless @post
+    haml :'forms/delete_post'
+end
+
+post '/posts/:id/delete' do
+    post = Post[params[:id]]
+    return 404 unless post
+    post.delete
+
+    redirect '/'
 end
 
 get '/posts/:slug' do
     @post = Post.where(:slug => params[:slug]).first
 
     unless @post
-        @post = Post[params[:slug]].first
+        @post = Post[params[:slug]]
     end
 
     not_found unless @post
+
+    @title = "#{@post.title} - #{@blog_title}"
     haml :post
 end
 

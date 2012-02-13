@@ -8,12 +8,8 @@
     %header
       %nav
         %h1
-          %a{:href => '/'} An Oak In The Fall
+          %a{:href => '/'}= @blog_title
         %ul
-          %li
-            %a{:href => '/tags/programming'} Programming
-          %li
-            %a{:href => '/tags/music'} Music
           - if @logged_in
             %li
               Logged in as @#{@client.info['screen_name']}
@@ -21,7 +17,21 @@
           - else
             %li
               %a{:href => '/login'} Login
-    %table
+          %li
+            %a{:href => '/tags/programming'} Programming
+          %li
+            %a{:href => '/tags/music'} Music
+        - if @logged_in
+          %br
+            %ul
+              %li
+                %a{:href => '/posts/new'} New Post
+              - if @post
+                %li
+                  %a{:href => "/posts/#{@post.id}/edit"} Edit Post
+                %li
+                  %a{:href => "/posts/#{@post.id}/delete"} Delete Post
+    %table#boxes
       %tr
         %td#content
           %section#content

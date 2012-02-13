@@ -21,6 +21,7 @@ require 'app'
 
 ##
 # run the application
-if $0 == __FILE__
+if File.absolute_path($0) == File.absolute_path(__FILE__) or
+   File.absolute_path($0) == `which rackup`.chop
     run Sinatra::Application
 end

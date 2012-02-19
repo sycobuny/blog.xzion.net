@@ -49,21 +49,9 @@ namespace :admin do
         raise 'No ADMIN account was provided' if v.empty?
 
         client = TwitterOAuth::Client.new
-        rest_url = "/users/lookup.json?screen_name=#{v}"
+        id     = client.twitter_users(v)[0]['id']
+        row    = DB[:authors][:id => id]
 
-        response = client.send(:get, rest_url)
-
-        if response.is_a?(Hash) and response['errors']
-            errstr = "API Errors:\n"
-            response['errors'].each do |error|
-                errstr += "  #{error['code']}: #{error['message']}"
-            end
-            raise errstr
-        end
-
-        id = response[0]['id']
-
-        row = DB[:authors][:id => id]
         if row
             DB[:authors][:id => id] = {:administrator => true}
         else
@@ -78,20 +66,9 @@ namespace :admin do
         raise 'No ADMIN account was provided' if v.empty?
 
         client = TwitterOAuth::Client.new
-        rest_url = "/users/lookup.json?screen_name=#{v}"
+        id     = client.twitter_users(v)[0]['id']
+        row    = DB[:authors][:id => id]
 
-        response = client.send(:get, rest_url)
-
-        if response.is_a?(Hash) and response['errors']
-            errstr = "API Errors:\n"
-            respnse['errors'].each do |error|
-                errstr += "  #{error['code']}: #{error['message']}"
-            end
-            raise errstr
-        end
-
-        id = response[0]['id']
-        row = DB[:authors][:id => id]
         if row
             DB[:authors][:id => id] = {:administrator => false}
         end
@@ -105,19 +82,8 @@ namespace :admin do
             raise 'No author ACCOUNT was provided' if v.empty?
 
             client = TwitterOAuth::Client.new
-            rest_url = "/users/lookup.json?screen_name=#{v}"
+            id     = client.twitter_users(v)[0]['id']
 
-            response = client.send(:get, rest_url)
-
-            if response.is_a?(Hash) and response['errors']
-                errstr = "API Errors:\n"
-                respnse['errors'].each do |error|
-                    errstr += "  #{error['code']}: #{error['message']}"
-                end
-                raise errstr
-            end
-
-            id = response[0]['id']
             unless DB[:authors][:id => id]
                 DB[:authors].insert(:id => id)
             end
@@ -130,19 +96,8 @@ namespace :admin do
             raise 'No author ACCOUNT was provided' if v.empty?
 
             client = TwitterOAuth::Client.new
-            rest_url = "/users/lookup.json?screen_name=#{v}"
+            id     = client.twitter_users(v)[0]['id']
 
-            response = client.send(:get, rest_url)
-
-            if response.is_a?(Hash) and response['errors']
-                errstr = "API Errors:\n"
-                respnse['errors'].each do |error|
-                    errstr += "  #{error['code']}: #{error['message']}"
-                end
-                raise errstr
-            end
-
-            id = response[0]['id']
             if not DB[:posts].where(:author_id => id).empty?
                 raise "Author #{v} has posts, will not execute.\n" +
                       "  (run admin:author:remove_cascade to remove all posts)"
@@ -157,19 +112,8 @@ namespace :admin do
             raise 'No author ACCOUNT was provided' if v.empty?
 
             client = TwitterOAuth::Client.new
-            rest_url = "/users/lookup.json?screen_name=#{v}"
+            id     = client.twitter_users(v)[0]['id']
 
-            response = client.send(:get, rest_url)
-
-            if response.is_a?(Hash) and response['errors']
-                errstr = "API Errors:\n"
-                respnse['errors'].each do |error|
-                    errstr += "  #{error['code']}: #{error['message']}"
-                end
-                raise errstr
-            end
-
-            id = response[0]['id']
             DB[:posts][:author_id => id].delete
             DB[:authors][:id => id].delete
             puts '<= admin:author:remove_cascade executed'

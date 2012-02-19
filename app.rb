@@ -19,7 +19,7 @@ get '/styles.css' do
 end
 
 get '/' do
-    @posts = Post.order(:id.desc).limit(5).all
+    @posts = Post.page(@default_tag, 1, 5).all
     @title = @blog_title
     haml :index
 end

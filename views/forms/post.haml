@@ -8,6 +8,13 @@
                :value => @post.slug}
     %tr
       %th
+        %label{:for => :tags} Tags
+      %td
+        %input{:name => :tags, :style => 'width: 150px',
+               :value => @post.tags.collect { |t| t.tag }.join(', ')}
+        + #{@default_tag}
+    %tr
+      %th
         %label{:for => :title} Title
       %td
         %input{:size => 150, :name => :title, :style => 'width: 150px',
@@ -16,7 +23,7 @@
       %th
         %label{:for => :body} Post
       %td
-        %textarea{:name => :body, :style => 'width: 300px; height: 500px'}
+        %textarea{:name => :body, :style => 'width: 600px; height: 400px'}
           = preserve @post.body
     %tr
       %td{:colspan => 2}

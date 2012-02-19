@@ -2,6 +2,7 @@
   %article.post{:id => "id#{post.id}"}
     %h1.title
       %a{:href => "/posts/#{post.slug}"}= post.title
+    %h2.author= Author.twitter_users(post.author_id).values.first['screen_name']
     %hr
     %section.markdown
       = markdown post.preview

@@ -36,7 +36,8 @@ get '/posts/new' do
 end
 
 post '/posts/save' do
-    id = params.delete('id')
+    id   = params.delete('id')
+    tags = params.delete('tags')
 
     body = params[:body]
     body.gsub!(/(.*)\#\{END_PREVIEW\} ?(.*)/m, "\\1\\2")
@@ -56,6 +57,12 @@ post '/posts/save' do
         params['preview'] = preview_parts.join("\n")
     end
 
+    tags = tags.to_s.split(',').collect { |t| t.strip }.uniq
+    tags << @default_tag unless tags.index(@default_tag)
+    tags = Tag.resolve(tags)
+
+    params['author_id'] = @client.info['id']
+
     if id
         Post.dataset[:id => id] = params
         post = Post[id]
@@ -63,6 +70,11 @@ post '/posts/save' do
         post = Post.new(params)
         post.save
     end
+
+    tags.each do |tag|
+        post.add_tag(tag) unless post.tags.find { |t| t.id == tag.id }
+    end
+    post.save
 
     redirect "/posts/#{post.slug}"
 end
@@ -93,7 +105,7 @@ get '/posts/:slug' do
     @post = Post.where(:slug => params[:slug]).first
 
     unless @post
-        @post = Post[params[:slug]]
+        @post = Post[params[:slug].to_i]
     end
 
     not_found unless @post

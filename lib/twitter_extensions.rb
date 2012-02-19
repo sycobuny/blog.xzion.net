@@ -36,7 +36,8 @@ module TwitterOAuth
             qs = qp.join('&')
 
             # get a response rather than return it directly
-            response = get("/users/lookup.json?#{qs}")
+            rest_url = "/users/lookup.json?#{qs}"
+            response = get(rest_url)
 
             # translate API errors into a ruby exception
             if response.is_a?(Hash)

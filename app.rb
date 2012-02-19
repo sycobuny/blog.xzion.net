@@ -12,6 +12,12 @@ before do
         :secret          => session[:secret_token]
     )
     @rate_limit_status = @client.rate_limit_status
+
+    unless ($last_query_time.to_i + 10) >= Time.now.to_i
+        client = TwitterOAuth::Client.new
+        $twitter = client.search('from:sycobuny+exclude:retweets')
+        $last_query_time = Time.now.to_i
+    end
 end
 
 get '/styles.css' do

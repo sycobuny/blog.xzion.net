@@ -37,9 +37,29 @@
           %section#content
             = yield
         %td#sidebar
-          %section#sidebar
+          %section#twitter
             %h1
-              Twitter!
-            %p.tweet
-              %a.twitter_profile{:href => 'http://twitter.com/sycobuny'} @sycobuny
-              I don't know what to do here.
+              %a{:href => 'http://twitter.com/sycobuny'}
+              @sycobuny
+            - x = 0
+            - $twitter['results'].each do |tweet|
+              - next if tweet['in_reply_to_status_id']
+              %p.tweet
+                = tweet['text']
+              - break if (x += 1) == 5
+          %section#blogroll
+            %h1
+              Blog Roll
+            %ul
+              %li
+                %a{:href => 'http://www.williambrucewest.com/'}
+                  WilliamBruceWest.com
+              %li
+                %a{:href => 'http://pain.ericw.org/'}
+                  Life in Pain
+              %li
+                %a{:href => 'http://www.coreag.com/wordpress'}
+                  Blogger Who?
+              %li
+                %a{:href => 'http://dreamsofspam.wordpress.com/'}
+                  The Dreams of Spam

@@ -12,7 +12,9 @@ class Tag < Sequel::Model
 
         return objs if tags.empty?
 
-        dataset.returning('*'.lit).import([:tag], [tags]).each do |tag|
+        dataset.import([:tag], [tags])
+
+        dataset.filter(:tag => tags).each do |tag|
             objs << tag
             tags.delete(tag)
         end
